@@ -403,10 +403,11 @@
             },
 
             place = function () {
-                var position = (component || element).position(),
-                    offset = (component || element).offset(),
+                var offset = (component || element).offset(),
                     vertical = options.widgetPositioning.vertical,
                     horizontal = options.widgetPositioning.horizontal,
+                    rect = element[0].getBoundingClientRect(),
+                    left = rect.left + rect.width - (widget.width() + 5),
                     parent;
 
                 if (options.widgetParent) {
@@ -453,22 +454,14 @@
                     widget.removeClass('pull-right');
                 }
 
-                // find the first parent element that has a non-static css positioning
-                if (parent.css('position') === 'static') {
-                    parent = parent.parents().filter(function () {
-                        return $(this).css('position') !== 'static';
-                    }).first();
+                if (left < 0) {
+                    left = 0;
                 }
-
-                if (parent.length === 0) {
-                    throw new Error('datetimepicker component should be placed within a non-static positioned container');
-                }
-
                 widget.css({
-                    top: vertical === 'top' ? 'auto' : position.top + element.outerHeight(),
-                    bottom: vertical === 'top' ? parent.outerHeight() - (parent === element ? 0 : position.top) : 'auto',
-                    left: horizontal === 'left' ? (parent === element ? 0 : position.left) : 'auto',
-                    right: horizontal === 'left' ? 'auto' : parent.outerWidth() - element.outerWidth() - (parent === element ? 0 : position.left)
+                    top: vertical === 'top' ? (rect.top - widget.height() - 15) : (rect.top + element.outerHeight()),
+                    bottom: 'auto',
+                    left: left,
+                    right: 'auto'
                 });
             },
 
