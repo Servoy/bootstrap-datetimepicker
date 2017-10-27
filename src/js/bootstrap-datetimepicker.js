@@ -501,9 +501,9 @@
             },
 
             fillDow = function () {
-            	var weekname = (options.isoCalendarWeeks ? 'isoWeek' : 'week')
-                var row = $('<tr>'),
-                    currentDate = viewDate.clone().startOf(weekname).startOf('d');
+                var weekname = (options.isoCalendarWeeks ? 'isoWeek' : 'week'),
+                    row = $('<tr>'),
+                currentDate = viewDate.clone().startOf(weekname).startOf('d');
 
                 if (options.calendarWeeks === true || options.isoCalendarWeeks === true) {
                     row.append($('<th>').addClass('cw').text('#'));
@@ -693,7 +693,9 @@
                     html = [],
                     row,
                     clsNames = [],
-                    i;
+                    i,
+                    weekname = (options.isoCalendarWeeks ? 'isoWeek' : 'w'),
+                    weekstart = (options.isoCalendarWeeks ? 1 : 0);
 
                 if (!hasDate()) {
                     return;
@@ -713,9 +715,6 @@
                     daysViewHeader.eq(2).addClass('disabled');
                 }
 
-                var weekname = (options.isoCalendarWeeks ? 'isoWeek' : 'w')
-                var weekstart = (options.isoCalendarWeeks ? 1 : 0)
-                
                 currentDate = viewDate.clone().startOf('M').startOf(weekname).startOf('d');
 
                 for (i = 0; i < 42; i++) { //always display 42 days (should show 6 weeks)
